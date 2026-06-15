@@ -1,0 +1,19 @@
+digraph LBA_SMS_Enforcer_With_Warning {
+    rankdir=LR;
+    node [shape = circle, fontname="Helvetica", fontsize=12];
+    
+    START [shape = plaintext, label="Start"];
+    READING [label="READING\n(Safe Zone)"];
+    WARNING [label="WARNING STATE\n(80% Limit Reached!)", color=orange, fontcolor=orange];
+    ACCEPT [shape = doublecircle, color=green, label="ACCEPT"];
+    REJECT [shape = doublecircle, color=red, label="REJECT"];
+
+    START -> READING [label="Input Loaded"];
+    READING -> READING [label="Read bit\n[Count < 80%]"];
+    READING -> WARNING [label="Count == 80%"];
+    WARNING -> WARNING [label="Read bit\n[Count < 100%]"];
+    WARNING -> REJECT [label="Count == Limit", color=red];
+    
+    READING -> ACCEPT [label="End of Text", color=green];
+    WARNING -> ACCEPT [label="End of Text", color=green];
+}
